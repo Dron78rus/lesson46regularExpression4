@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      p {
+        font-weight: bold;
+      }
+      .topic {
+        text-decoration: underline;
+        margin: 10px;
+      }
+      .task {
+        margin: 20px 10px;
+      }
+      .container {
+        padding-bottom: 15px;
+        border-bottom: 1px black solid;
+      }
+    </style>
+
+    <p>Задание 1</p>
+
+    <div class="topic">На позитивный и негативный просмотр</div>
+    <div class="task">
+      С помощью позитивного и негативного просмотра найдите все строки по
+      шаблону 3 буквы a, затем буква b и поменяйте 3 буквы a на знак '!'. То
+      есть из 'aaab' нужно сделать '!b'.
+    </div>
+
+    <div class="container divT1"></div>
+
+    <p>Задание 2</p>
+
+    <div class="task">
+      С помощью позитивного и негативного просмотра найдите все строки по
+      шаблону 3 буквы a, затем любая буква, но не b и поменяйте 3 буквы a на
+      знак '!'. То есть из, к примеру, 'aaaw' нужно сделать '!w', а 'aaab' не
+      поменяется
+    </div>
+
+    <div class="container divT2"></div>
+
+    <p>Задание 3</p>
+
+    <div class="topic">На replace</div>
+    <div class="task">
+      Дана строка с целыми числами. С помощью регулярки преобразуйте строку так,
+      чтобы вместо этих чисел стояли их квадраты.
+    </div>
+
+    <div class="container divT3"></div>
+
+    <p>Задание 4</p>
+
+    <div class="task">
+      Дана строка с целыми числами. Найдите числа, стоящие в кавычках и
+      увеличьте их в два раза. Пример: из строки 2aaa'3'bbb'4' сделаем строку
+      2aaa'6'bbb'8'.
+    </div>
+
+    <div class="container divT4"></div>
+
+    <p>Задание 5</p>
+
+    <div class="task">
+      Дана строка в которой есть вставки {{текст}}. Найдите все такие вставки и
+      поменяйте в них порядок букв на обратный (то есть из 'текст' нужно сделать
+      'тскет')
+    </div>
+
+    <div class="container divT5"></div>
+
+    <p>Задание 6</p>
+
+    <div class="task">
+      Дана строка '23 + 35 ='. Числа могут быть любыми. Выведите на экран
+      результат операции в виде '23 + 35 = 58'.
+    </div>
+
+    <div class="container divT6"></div>
+
+    <script>
+      // http://old.code.mu/tasks/javascript/regular/rabota-s-regulyarnymi-vyrazeniyami-v-javascript-glava-4.html
+
+      // задание 1
+
+      const d = document
+      const str = 'aaab aaax aaab aaav aaa5 aaa5 aaab aaab'
+      const divT1 = d.querySelector('.divT1')
+
+      function outputOfResult(parent, receivedValue, initialValue = 'none') {
+        if (initialValue !== 'none') {
+          const sourceString = `Исходная строка: ${initialValue}`
+          const newDiv = d.createElement('div')
+          parent.appendChild(newDiv)
+          newDiv.innerHTML = sourceString
+        }
+
+        const modifiedString = `Результат: ${receivedValue}`
+        const newDiv2 = d.createElement('div')
+        parent.appendChild(newDiv2)
+        newDiv2.innerHTML = modifiedString
+      }
+
+      const str2 = str.replace(/aaa(?=b)/g, 'совпадение!')
+      const str3 = str.replace(/aaa(?=[0-9])/g, 'совпадение!')
+      const str4 = str.replace(/aaa(?![0-9])/g, 'совпадение!')
+
+      outputOfResult(divT1, str2, str)
+      outputOfResult(divT1, str3)
+      outputOfResult(divT1, str4)
+
+      // задание 2
+
+      const divT2 = d.querySelector('.divT2')
+      const str5 = 'aaab aaax aaab aaav aaa5 aaa5 aaab aaab'
+
+      const str6 = str5.replace(/aaa(?!b)/g, 'совпадение!')
+
+      outputOfResult(divT2, str6, str5)
+
+      // задание 3
+
+      const divT3 = d.querySelector('.divT3')
+      const str7 = '5 6 10 4 7 18 200'
+
+      const squaring = (number) => {
+        return Math.pow(number, 2)
+      }
+
+      const str8 = str7.replace(/\d+/g, squaring)
+
+      outputOfResult(divT3, str8, str7)
+
+      // задание 4
+
+      const divT4 = d.querySelector('.divT4')
+      const str9 = "2aaa'3'bbb'23''4'"
+
+      function doubling(number) {
+        return number * 2
+      }
+
+      const str10 = str9.replace(/\d+(?=')/g, doubling)
+
+      outputOfResult(divT4, str10, str9)
+
+      // задание 5
+
+      const divT5 = d.querySelector('.divT5')
+      const str11 = "2aaa'3'{{текст}}'4'"
+
+      function permutation_of_characters(string) {
+        let arr = string.split('')
+        let modified_string = ''
+        for (let i = 1; i < arr.length; i++) {
+          if (arr[arr.length - i] !== '{') {
+            modified_string += arr[arr.length - i]
+          } else {
+            break
+          }
+        }
+        return modified_string
+      }
+
+      const str12 = str11.replace(/.+?(?=\})/, permutation_of_characters)
+      const str13 = str11.replace(/\{.*/, '{{')
+      const str14 = str13 + str12
+
+      outputOfResult(divT5, str14, str11)
+
+      // задание 6
+
+      const divT6 = d.querySelector('.divT6')
+      const str15 = '23 + 35 ='
+
+      function summation(match, match1, match2) {
+        let sum = Number(match1) + Number(match2)
+        console.log(sum)
+        console.log(match1)
+        console.log(match2)
+        return ` ${match} ${sum}`
+      }
+
+      const str16 = str15.replace(/(\d+)\s\+\s(\d+)\s=/g, summation)
+
+      outputOfResult(divT6, str16, str15)
+    </script>
+  </body>
+</html>
