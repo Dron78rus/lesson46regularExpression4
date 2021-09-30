@@ -85,6 +85,61 @@
 
     <div class="container divT6"></div>
 
+    <p>Задание 7</p>
+
+    <div class="topic">Головоломки</div>
+    <div class="task">
+      Определите, что год находится в интервале от 1900 до 2100 с помощью одного
+      только регулярного выражения.
+    </div>
+
+    <div class="container divT7"></div>
+
+    <p>Задание 8</p>
+
+    <div class="task">
+      С помощью test определите, что переданная строка является корректным
+      временем вида '12:59', '23:41', '00:12', '00:00', '09:15'. Время '24.00',
+      '25.00', '12.60', '12.93', '41.93' является некорректным.
+    </div>
+
+    <div class="container divT8"></div>
+
+    <p>Задание 9</p>
+
+    <div class="task">
+      С помощью test определите, что переданная строка является корректным
+      временем вида '9.59 am', '12.30 pm'.
+    </div>
+
+    <div class="container divT9"></div>
+
+    <p>Задание 10</p>
+
+    <div class="task">
+      Удалите одной регуляркой все слова из предложения, содержащие две
+      одинаковые следующие друг за другом буквы
+    </div>
+
+    <div class="container divT10"></div>
+
+    <p>Задание 11</p>
+
+    <div class="task">
+      Удалите одной регуляркой все повторяющиеся слова из строки
+    </div>
+
+    <div class="container divT11"></div>
+
+    <p>Задание 12</p>
+
+    <div class="task">
+      Решите предыдущую задачу с учетом того, что слово может повторяться много
+      раз. Например 'dsf xxx xxx xxx xxx xxx sd' должно вернуть 'dsf xxx sd'.
+    </div>
+
+    <div class="container divT12"></div>
+
     <script>
       // http://old.code.mu/tasks/javascript/regular/rabota-s-regulyarnymi-vyrazeniyami-v-javascript-glava-4.html
 
@@ -182,15 +237,127 @@
 
       function summation(match, match1, match2) {
         let sum = Number(match1) + Number(match2)
-        console.log(sum)
-        console.log(match1)
-        console.log(match2)
+
         return ` ${match} ${sum}`
       }
 
       const str16 = str15.replace(/(\d+)\s\+\s(\d+)\s=/g, summation)
 
       outputOfResult(divT6, str16, str15)
+
+      // задание 7
+
+      // alert(/^(19\d\d|20\d\d|2100)$/.test('2199'))
+
+      const divT7 = d.querySelector('.divT7')
+      const str17 = '1500г., 1951г., 2015рлдирлд'
+
+      function definitionOfTheYear(year) {
+        let strPositive = `${year} - год, попадающий в интервал между 1900 и 2100 годами <br>`
+        let strNegative = `${year} - год, не попадающий в интервал между 1900 и 2100 годами <br>`
+        if (year >= 1900 && year <= 2100) return strPositive
+        else return strNegative
+      }
+
+      const str18 = str17.replace(/\d{4}/g, definitionOfTheYear)
+
+      outputOfResult(divT7, str18, str17)
+
+      // задание 8
+
+      // alert(/^([01]\d|2[0-3]):[0-5]\d$/.test('24:00'));
+
+      const divT8 = d.querySelector('.divT8')
+      const str19 =
+        "'12:59', '23:71', '12.59', '28:01', '23:41', '12.60', '12.93'"
+
+      function timeValidation(string) {
+        let strPositive = `${string} - корректная запись времени <br>`
+        let strNegative = `${string} - некорректная запись времени <br>`
+
+        let hours = string.match(/\d\d/g)[0]
+        let minutes = string.match(/\d\d/g)[1]
+
+        if (hours >= 24 || hours < 0 || minutes > 59 || minutes < 0)
+          return strNegative
+        else return strPositive
+      }
+
+      const str20 = str19.replace(/'\d\d:\d\d',?/g, timeValidation)
+      const str21 = str20.replace(
+        /'\d\d\.\d\d',?/g,
+        `$& - некорректная запись времени <br>`
+      )
+
+      outputOfResult(divT8, str21, str19)
+
+      // задание 9
+
+      const divT9 = d.querySelector('.divT9')
+      const str22 = ' 15.53 am строка является корректным временем?'
+      // const str23 = /([01]\d|2[0-3])\.[0-5]\d\s[ap]m/
+      const str23 = /(?:1?[01]|[0-9])\.[0-5][0-9]/
+
+      let str24 = ''
+
+      if (str23.test(str22)) {
+        str24 = 'да, время записано правильно'
+      } else str24 = 'нет, время записано неверно'
+
+      outputOfResult(divT9, str24, str22)
+
+      // задание 10
+
+      // var res = 'aaa zzqzqaq hsdds'.replace(/\W*\w*(\w)\1\w*\W*/g, ' ')
+
+      const divT10 = d.querySelector('.divT10')
+      const str25 =
+        'пrrрttеyyдuuлggоbbжrrееенbbиннеkk бььеwwзyy оttдeeиrrнyyаbbкvvоccвssыaaхgg iiбiiуuuкqqвaa'
+
+      // первый вариант
+      // const str26 = str25.replace(/\w\w/g, (str) => {
+      //   if (str.split('')[0] == str.split('')[1]) {
+      //     return ''
+      //   } else {
+      //     return str
+      //   }
+      // })
+
+      // второй вариант
+
+      // const str26 = str25.replace(/(\w)(\w)/g, (str, symbolOne, symbolTwo) => {
+      //   if (symbolOne == symbolTwo) {
+      //     return ''
+      //   } else {
+      //     return str
+      //   }
+      // })
+
+      // улучшенный вариант
+
+      const str26 = str25.replace(/([\w\W{А-Яа-яЁё}])\1/g, '')
+
+      outputOfResult(divT10, str26, str25)
+      // outputOfResult(divT10, res)
+
+      // задание 11
+
+      const divT11 = d.querySelector('.divT11')
+      const str27 = 'dsf xxx xxx sd'
+
+      const str28 = str27.replace(/\b(\w+)\s\1/g, '$1')
+
+      outputOfResult(divT11, str28, str27)
+
+      // задание 12
+
+      const divT12 = d.querySelector('.divT12')
+      const str29 = 'dsf xxx xxx xxx xxx xxx sd'
+
+      // const str30 = str29.replace(/\b(\w+)(?:\s\1)+/g, '$1')
+      const str30 = str29.replace(/\b(\w+)\b(?:\s+\1\b)+/g, '$1') //у Трепачёва
+
+      outputOfResult(divT12, str30, str29)
     </script>
   </body>
 </html>
